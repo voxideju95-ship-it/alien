@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$ALIEN Meme Coin</title>
+<title>DAME TU COSITA | $ALIEN Meme Coin</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="999c17e0-faad-4f34-bdbc-b7f10ef8c515"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -784,6 +785,58 @@ window.addEventListener('scroll', () => {
     ? 'rgba(3,13,3,0.97)'
     : 'rgba(3,13,3,0.88)';
 }, { passive: true });
+
+/* umami event tracking */
+function track(name, data) {
+  if (typeof umami !== 'undefined') umami.track(name, data);
+}
+
+// Buy buttons
+document.querySelectorAll('.btn-buy, .btn-solid').forEach(el => {
+  el.addEventListener('click', () => track('click_buy_button', { label: el.textContent.trim() }));
+});
+
+// How to buy button
+document.querySelector('.btn-outline') && document.querySelector('.btn-outline').addEventListener('click', () => track('click_how_to_buy'));
+
+// Copy CA
+document.querySelectorAll('.ca-box, .footer-ca').forEach(el => {
+  el.addEventListener('click', () => track('copy_contract_address'));
+});
+
+// Step links
+document.querySelectorAll('.step-link').forEach(el => {
+  el.addEventListener('click', () => track('click_step_link', { label: el.textContent.trim() }));
+});
+
+// Social / nav links
+const socialMap = {
+  'x.com': 'click_twitter',
+  't.me': 'click_telegram',
+  'dexscreener': 'click_dexscreener',
+  'jup.ag': 'click_jupiter',
+  'phantom.app': 'click_phantom',
+};
+document.querySelectorAll('a[href]').forEach(el => {
+  const href = el.getAttribute('href') || '';
+  for (const [key, event] of Object.entries(socialMap)) {
+    if (href.includes(key)) {
+      el.addEventListener('click', () => track(event));
+      break;
+    }
+  }
+});
+
+// Sound toggle
+document.getElementById('sound-btn').addEventListener('click', () => {
+  const muted = document.querySelector('.video-bg video').muted;
+  track('toggle_sound', { state: muted ? 'muted' : 'unmuted' });
+});
+
+// TV card plays
+document.querySelectorAll('.tv-card').forEach((card, i) => {
+  card.addEventListener('click', () => track('play_tv_video', { index: i + 1 }));
+});
 </script>
 </body>
 </html>
